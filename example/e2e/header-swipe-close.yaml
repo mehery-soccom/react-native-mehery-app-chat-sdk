@@ -1,0 +1,31 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 20000
+- tapOn:
+    id: "mehery-launcher"
+- extendedWaitUntil:
+    visible: "Track my order"
+    timeout: 15000
+# A short header drag springs back and the chat stays open.
+- swipe:
+    start: "40%, 11%"
+    end: "40%, 15%"
+    duration: 300
+- waitForAnimationToEnd
+- assertVisible:
+    id: "mehery-input"
+# A full header swipe closes the chat into the launcher.
+- swipe:
+    start: "40%, 11%"
+    end: "40%, 55%"
+    duration: 350
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "mehery-input"
+- assertVisible:
+    id: "mehery-launcher"
+- takeScreenshot: 04-header-swipe-closed

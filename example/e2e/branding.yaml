@@ -1,0 +1,39 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 30000
+- tapOn: "Minimal"
+- tapOn:
+    id: "mehery-launcher"
+- extendedWaitUntil:
+    visible: "Track my order"
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: minimal
+- extendedWaitUntil:
+    visible:
+      id: "mehery-close"
+    timeout: 15000
+- tapOn:
+    id: "mehery-close"
+- waitForAnimationToEnd
+- tapOn: "Ocean"
+- tapOn:
+    id: "mehery-launcher"
+- waitForAnimationToEnd
+- takeScreenshot: ocean
+- extendedWaitUntil:
+    visible:
+      id: "mehery-close"
+    timeout: 15000
+- tapOn:
+    id: "mehery-close"
+- waitForAnimationToEnd
+- tapOn: "Midnight"
+- tapOn:
+    id: "mehery-launcher"
+- waitForAnimationToEnd
+- takeScreenshot: midnight

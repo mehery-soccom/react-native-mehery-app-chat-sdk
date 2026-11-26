@@ -1,0 +1,38 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 20000
+- tapOn: "Mock"
+- extendedWaitUntil:
+    visible: "Simulate offline"
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn: "Open chat"
+- extendedWaitUntil:
+    visible: "Track my order"
+    timeout: 15000
+- tapOn:
+    id: "mehery-input"
+- inputText: "contact me"
+- tapOn:
+    id: "mehery-send"
+- extendedWaitUntil:
+    visible: "Please enter your"
+    timeout: 15000
+- tapOn:
+    id: "mehery-form-name"
+- inputText: "Sam"
+- tapOn:
+    id: "mehery-form-email"
+- inputText: "sam@acme.com"
+- tapOn:
+    id: "mehery-form-phone"
+- inputText: "9876543210"
+- tapOn:
+    id: "mehery-form-submit"
+- extendedWaitUntil:
+    visible: ".*Submitted.*"
+    timeout: 15000

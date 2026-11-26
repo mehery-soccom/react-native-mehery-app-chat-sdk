@@ -1,0 +1,185 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 20000
+- tapOn:
+    id: "mehery-launcher"
+- extendedWaitUntil:
+    visible: "Track my order"
+    timeout: 15000
+
+# 1. Gallery: five photos -> 2x2 grid with "+1", viewer pages between them.
+- tapOn:
+    id: "mehery-input"
+- inputText: "gallery"
+- tapOn:
+    id: "mehery-send"
+# Tapping the header strip dismisses the keyboard.
+- tapOn:
+    point: "50%, 9%"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-grid-3"
+    timeout: 15000
+- assertVisible: ".*1 more.*"
+- takeScreenshot: media-01-gallery-loading
+# Let the photos load (thumbnails first, then full images).
+- extendedWaitUntil:
+    visible: "never-shown-wait"
+    timeout: 6000
+    optional: true
+- takeScreenshot: media-02-gallery-loaded
+- tapOn:
+    id: "mehery-grid-1"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-viewer-counter"
+    timeout: 5000
+- assertVisible: "2 / 5"
+- swipe:
+    start: "85%, 50%"
+    end: "10%, 50%"
+    duration: 300
+- waitForAnimationToEnd
+- assertVisible: "3 / 5"
+- takeScreenshot: media-03-viewer-paged
+- swipe:
+    start: "50%, 45%"
+    end: "50%, 85%"
+    duration: 300
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "mehery-viewer-close"
+
+# 2. Video: still thumbnail in the bubble; tap opens the full-screen player.
+- tapOn:
+    id: "mehery-input"
+- inputText: "video"
+- tapOn:
+    id: "mehery-send"
+# Tapping the header strip dismisses the keyboard.
+- tapOn:
+    point: "50%, 9%"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-video"
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: media-04-video-poster
+- tapOn:
+    id: "mehery-video"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-video-viewer"
+    timeout: 5000
+- takeScreenshot: media-05-video-opening
+- extendedWaitUntil:
+    visible: "never-shown-wait"
+    timeout: 4000
+    optional: true
+# Controls have auto-hidden by now; a tap brings them back.
+- takeScreenshot: media-06-video-playing-clean
+- tapOn:
+    id: "mehery-video-viewer"
+    # Playing media never "settles"; don't let Maestro wait for it before tapping.
+    waitToSettleTimeoutMs: 300
+    retryTapIfNoChange: false
+- extendedWaitUntil:
+    visible:
+      id: "mehery-video-toggle"
+    timeout: 3000
+- takeScreenshot: media-07-video-controls
+- tapOn:
+    id: "mehery-video-toggle"
+    # Playing media never "settles"; don't let Maestro wait for it before tapping.
+    waitToSettleTimeoutMs: 300
+    retryTapIfNoChange: false
+- assertVisible: "Play"
+- takeScreenshot: media-08-video-paused
+# Swipe down to dismiss, like the photo viewer.
+- swipe:
+    start: "50%, 40%"
+    end: "50%, 85%"
+    duration: 300
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "mehery-video-close"
+- assertVisible:
+    id: "mehery-input"
+
+# 3. Voice note: plays, the waveform fills, pause.
+- tapOn:
+    id: "mehery-input"
+- inputText: "voice"
+- tapOn:
+    id: "mehery-send"
+# Tapping the header strip dismisses the keyboard.
+- tapOn:
+    point: "50%, 9%"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-audio"
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn:
+    id: "mehery-audio"
+- extendedWaitUntil:
+    visible: "never-shown-wait"
+    timeout: 4000
+    optional: true
+- takeScreenshot: media-09-audio-playing
+- tapOn:
+    id: "mehery-audio"
+    # Playing media never "settles"; don't let Maestro wait for it before tapping.
+    waitToSettleTimeoutMs: 300
+    retryTapIfNoChange: false
+- assertVisible: "Play, Voice message.*"
+- takeScreenshot: media-10-audio-paused
+# Only one clip at a time: opening the video pauses the voice note.
+- tapOn:
+    id: "mehery-audio"
+    # Playing media never "settles"; don't let Maestro wait for it before tapping.
+    waitToSettleTimeoutMs: 300
+    retryTapIfNoChange: false
+- tapOn:
+    id: "mehery-video"
+    # Playing media never "settles"; don't let Maestro wait for it before tapping.
+    waitToSettleTimeoutMs: 300
+    retryTapIfNoChange: false
+- extendedWaitUntil:
+    visible:
+      id: "mehery-video-viewer"
+    timeout: 5000
+# The close button (controls are up right after opening).
+- tapOn:
+    id: "mehery-video-close"
+    # Playing media never "settles"; don't let Maestro wait for it before tapping.
+    waitToSettleTimeoutMs: 300
+    retryTapIfNoChange: false
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "mehery-video-viewer"
+- assertVisible: "Play, Voice message.*"
+
+# 4. Document row.
+- tapOn:
+    id: "mehery-input"
+- inputText: "invoice"
+- tapOn:
+    id: "mehery-send"
+# Tapping the header strip dismisses the keyboard.
+- tapOn:
+    point: "50%, 9%"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-file"
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: media-11-file
+
+# Still alive: no crash, composer present.
+- assertVisible:
+    id: "mehery-input"

@@ -1,0 +1,54 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 20000
+- tapOn: "Mock"
+- extendedWaitUntil:
+    visible: "Simulate offline"
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn: "Open chat"
+- extendedWaitUntil:
+    visible: "Track my order"
+    timeout: 15000
+- takeScreenshot: 01-welcome
+- waitForAnimationToEnd
+- tapOn:
+    text: "Track my order"
+    retryTapIfNoChange: true
+- extendedWaitUntil:
+    visible: ".*email address on the order.*"
+    timeout: 15000
+- tapOn:
+    id: "mehery-input"
+- inputText: "sam@acme.com"
+- takeScreenshot: 02-keyboard
+- tapOn:
+    id: "mehery-send"
+- extendedWaitUntil:
+    visible: ".*out for delivery.*"
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: 03-image-reply
+- tapOn:
+    id: "mehery-input"
+- inputText: "tell me more"
+- tapOn:
+    id: "mehery-send"
+- extendedWaitUntil:
+    visible: ".*stream into the bubble.*"
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: 04-long-reply
+- hideKeyboard
+- tapOn:
+    id: "mehery-close"
+- waitForAnimationToEnd
+- takeScreenshot: 05-closed
+- tapOn:
+    id: "mehery-launcher"
+- waitForAnimationToEnd
+- takeScreenshot: 06-reopened

@@ -1,0 +1,237 @@
+# Regression (2026-11-17): opening/closing photos 2-3 times froze the app (nested native Modal on iOS).
+# 12 open/close cycles (X and swipe-down), then the chat must still send a message.
+# Regression (2026-11-19): with several photos, open one, close (X / swipe / tap / page then close),
+# open a DIFFERENT cell -> silent freeze (dead touches). Each open asserts the counter shows the
+# tapped photo; a second gallery message is used too; the composer must still send at the end.
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+    clearState: true # a chat left open by a previous run would restore open
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 20000
+- tapOn: "Mock"
+# Dev builds show LogBox toasts over the launcher; close them (dev only, absent in release).
+- repeat:
+    times: 2
+    commands:
+      - runFlow:
+          when:
+            visible: ".*(Open debugger|Failed to create).*"
+          commands:
+            - tapOn:
+                point: "92%, 91%"
+- tapOn:
+    id: "mehery-launcher"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-input"
+    timeout: 15000
+- tapOn:
+    id: "mehery-input"
+- inputText: "gallery"
+- tapOn:
+    id: "mehery-send"
+- tapOn:
+    point: "50%, 9%"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-grid-0"
+    timeout: 15000
+- extendedWaitUntil:
+    visible: "never-shown-wait"
+    timeout: 4000
+    optional: true
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: "mehery-grid-0"
+      - extendedWaitUntil:
+          visible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-viewer-close"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-1"
+      - extendedWaitUntil:
+          visible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - swipe:
+          start: "50%, 45%"
+          end: "50%, 90%"
+          duration: 300
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: "mehery-grid-0"
+          index: 0
+      - extendedWaitUntil:
+          visible: "1 / 5"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-viewer-close"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-2"
+          index: 0
+      - extendedWaitUntil:
+          visible: "3 / 5"
+          timeout: 4000
+      - swipe:
+          start: "50%, 45%"
+          end: "50%, 90%"
+          duration: 300
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-1"
+          index: 0
+      - extendedWaitUntil:
+          visible: "2 / 5"
+          timeout: 4000
+      - swipe:
+          start: "85%, 50%"
+          end: "10%, 50%"
+          duration: 300
+      - extendedWaitUntil:
+          visible: "3 / 5"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-viewer-close"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-3"
+          index: 0
+      - extendedWaitUntil:
+          visible: "4 / 5"
+          timeout: 4000
+      - tapOn:
+          point: "50%, 50%"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+# Second image message in the thread: send another gallery, then cycle its cells.
+- tapOn:
+    id: "mehery-input"
+- inputText: "gallery"
+- tapOn:
+    id: "mehery-send"
+- tapOn:
+    point: "50%, 9%"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-grid-3"
+      index: 1
+    timeout: 15000
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: "mehery-grid-0"
+          index: 1
+      - extendedWaitUntil:
+          visible: "1 / 5"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-viewer-close"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-2"
+          index: 1
+      - extendedWaitUntil:
+          visible: "3 / 5"
+          timeout: 4000
+      - swipe:
+          start: "50%, 45%"
+          end: "50%, 90%"
+          duration: 300
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-1"
+          index: 1
+      - extendedWaitUntil:
+          visible: "2 / 5"
+          timeout: 4000
+      - swipe:
+          start: "85%, 50%"
+          end: "10%, 50%"
+          duration: 300
+      - extendedWaitUntil:
+          visible: "3 / 5"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-viewer-close"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+      - tapOn:
+          id: "mehery-grid-3"
+          index: 1
+      - extendedWaitUntil:
+          visible: "4 / 5"
+          timeout: 4000
+      - tapOn:
+          point: "50%, 50%"
+      - extendedWaitUntil:
+          notVisible:
+            id: "mehery-viewer-close"
+          timeout: 4000
+# Android back closes the photo, not the chat (the chat is a Modal: back never reaches BackHandler).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - repeat:
+          times: 3
+          commands:
+            - tapOn:
+                id: "mehery-grid-1"
+                index: 1
+            - extendedWaitUntil:
+                visible: "2 / 5"
+                timeout: 4000
+            - back
+            - extendedWaitUntil:
+                notVisible:
+                  id: "mehery-viewer-close"
+                timeout: 4000
+            - assertVisible:
+                id: "mehery-input"
+- tapOn:
+    id: "mehery-input"
+- inputText: "still alive"
+- tapOn:
+    id: "mehery-send"
+- extendedWaitUntil:
+    visible: "still alive"
+    timeout: 5000
+- takeScreenshot: viewer-stress-end

@@ -1,0 +1,19 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 30000
+- tapOn:
+    id: "mehery-launcher"
+- extendedWaitUntil:
+    visible:
+      id: "mehery-close"
+    timeout: 15000
+- tapOn:
+    id: "mehery-close"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mehery-launcher"
+- waitForAnimationToEnd

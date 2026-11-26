@@ -1,0 +1,26 @@
+appId: org.reactjs.native.example.MeheryExample
+---
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Open chat"
+    timeout: 20000
+- tapOn:
+    id: "mehery-launcher"
+# Type immediately: while the window is opening and the welcome message streams in.
+- tapOn:
+    id: "mehery-input"
+- inputText: "hello there, typing during streaming"
+- assertVisible: "hello there, typing during streaming"
+- takeScreenshot: 01-typed-while-streaming
+- tapOn:
+    id: "mehery-send"
+- extendedWaitUntil:
+    visible: ".*stream into the bubble.*"
+    timeout: 15000
+# Box is empty again after sending, and typing works a second time mid-reply.
+- tapOn:
+    id: "mehery-input"
+- inputText: "second message works too"
+- assertVisible: "second message works too"
+- takeScreenshot: 02-second-message

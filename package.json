@@ -1,0 +1,78 @@
+{
+  "name": "react-native-mehery-chat",
+  "version": "0.1.0",
+  "description": "Native chat SDK for Mehery chatbots in React Native and Expo apps.",
+  "license": "MIT",
+  "author": "Mehery",
+  "homepage": "https://github.com/mehery-soccom/react-native-mehery-chat#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mehery-soccom/react-native-mehery-chat.git"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "chat",
+    "chatbot",
+    "mehery"
+  ],
+  "source": "./src/index.ts",
+  "main": "./lib/module/index.js",
+  "types": "./lib/typescript/src/index.d.ts",
+  "react-native": "./src/index.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./lib/typescript/src/index.d.ts",
+      "default": "./lib/module/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib",
+    "!**/*.test.*"
+  ],
+  "scripts": {
+    "build": "bob build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "example": "npm --prefix example run ios",
+    "e2e": "maestro test example/e2e",
+    "prepare": "bob build",
+    "prepublishOnly": "npm run typecheck && npm test && bob build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.76",
+    "react-native-safe-area-context": ">=4.5"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "react": "^19.3.0",
+    "react-native": "^0.88.1",
+    "react-native-builder-bob": "^0.44.1",
+    "react-native-safe-area-context": "~5.11.1",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}
